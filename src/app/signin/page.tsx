@@ -13,7 +13,7 @@ export default function SignInPage() {
 
     useEffect(() => {
         if (session?.user) {
-            router.push("/booking");
+            router.push("/booking");    
         }
     }, [session, router]);
 
