@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
+import Card from './components/Card';
 
 
 // src/app/signin/page.tsx
 export default function SignInPage() {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -44,42 +46,11 @@ export default function SignInPage() {
                     </p>
                     {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
                 </div>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        className="p-4 rounded bg-background/50 backdrop-blur-md border border-base-300 text-foreground"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        className="p-4 rounded bg-background/50 backdrop-blur-md border border-base-300 text-foreground"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="p-4 rounded bg-background/50 backdrop-blur-md border border-base-300 text-foreground"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <Button type="submit" variant="primary" size="lg">
-                        Sign In
-                    </Button>
-                    <div className="border-t border-base-300"></div>
-                    <p>
-                        Already have an account? {' '}
-                        <a href="/signin" className="text-primary">
-                            Sign In
-                        </a>
-                    </p>
-                </form>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                    {...Array(6).fill(0).map((_, i) => (
+                        <Card key={i} title='H1jdij' description='asjdaondoiadondo' price={200} rating={5} href='/' />
+                    ))}
+                </div>
             </div>
         </main>
     );
