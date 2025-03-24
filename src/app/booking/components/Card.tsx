@@ -57,7 +57,7 @@ const Card: React.FC<CardProps> = ({
                     {description}
                 </p>
                 <span>
-                    {price} THB
+                    {price}
                 </span>
                 {/* <div className="flex">
                     {[...Array(5)].map((_, index) => (

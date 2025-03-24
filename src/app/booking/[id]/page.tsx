@@ -9,17 +9,16 @@ import Breadcrumb from '@/components/ui/Breadcrum';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import addReservation from '@/libs/addReservation';
+import getRestaurant from '@/libs/getRestaurant';
+import { RestaurantItem } from 'interface';
 
 // src/app/signin/page.tsx
-export default function SignInPage() {
+export default async function SignInPage() {
+
     const [startDate, setStartDate] = useState(new Date());
     const [error, setError] = useState('');
     const router = useRouter();
-
-    let title = 'Placeholder';
-    let description = 'lore ipsum';
-
 
     const { id } = useParams();
     console.log('Booking ID:', id);
@@ -29,10 +28,16 @@ export default function SignInPage() {
         { label: `${id}`, href: `/booking/${id || ''}` }
     ];
 
+    const restaurantDetail=await getRestaurant(String(id));
+    const restaurant = restaurantDetail.data as unknown as RestaurantItem;
+    let title = restaurant.name;
+    let description = 'New Booking';
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setError(''); // Clear previous errors
     };
+
 
     return (
         <main className="relative">

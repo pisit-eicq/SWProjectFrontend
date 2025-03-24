@@ -7,34 +7,13 @@ import Button from '@/components/ui/Button';
 import Card from './components/Card';
 import getRestaurants from '@/libs/getRestaurants';
 import Input from '@/components/ui/Input';
+import { RestaurantItem } from 'interface';
 
 
 // src/app/signin/page.tsx
-export default function SignInPage() {
+export default async function SignInPage() {
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const router = useRouter();
-
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        setError(''); // Clear previous errors
-
-        const result = await signIn('credentials', { // 'credentials' provider
-            email,
-            password,
-            redirect: false, // Stay on the page after sign-in
-        });
-
-        if (result?.error) {
-            setError('Invalid credentials. Please check your email and password.');
-        } else if (result?.ok) {
-            router.push('/booking'); // Redirect to booking page on successful login
-        }
-    };
-        const [scroll, setScroll] = useState(0);
+    const [scroll, setScroll] = useState(0);
         const handleScroll = () => {
             setScroll(window.scrollY);
         };
@@ -46,6 +25,8 @@ export default function SignInPage() {
                 window.removeEventListener('scroll', handleScroll);
             };
         }, []);
+
+        const restaurant=await getRestaurants();
 
     return (
         <main className="relative">
@@ -67,8 +48,8 @@ export default function SignInPage() {
                     </a>
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                    {...Array(6).fill(0).map((_, i) => (
-                        <Card key={i} title='H1jdij' description='asjdaondoiadondo' price={200} rating={5} href='/' />
+                    {restaurant.data.map((restaurant:RestaurantItem) => (
+                        <Card key={restaurant._id} title={restaurant.name} description={`Address ${restaurant.address} |   Tel. ${restaurant.tel} | Open-Close ${restaurant.office_hours.open} - ${restaurant.office_hours.close} ${restaurant.office_hours.tz}`} href={`/booking/${restaurant._id}`} />
                     ))}
                 </div>
             </div>
