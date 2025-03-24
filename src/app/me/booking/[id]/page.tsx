@@ -53,7 +53,7 @@ export default function SignInPage() {
                             {description}
                         </p>
                     </div>
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
                         <div className='p-4 rounded bg-background/50 backdrop-blur-md flex justify-start items-center gap-4 z-0 border border-base-300 text-foreground w-full'>
                             <Icon icon="akar-icons:clock" className="shrink-0" />
                             <input
