@@ -3,6 +3,17 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --base-100: #ffffff;
+  --base-200: #f9fafb;
+  --base-300: #f4f5f7;
+  --base-400: #e5e7eb;
+  --base-500: #d2d6dc;
+  --base-600: #9fa6b2;
+  --base-700: #6b7280;
+  --base-800: #4b5563;
+  --base-900: #374151;
+  --base-999: #1f2937;
+  --base-1000: #000000;
 }
 
 @theme inline {
@@ -12,15 +23,43 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme{
+  --font-dela : 'Dela Gothic One', system-ui;
+  --color-base-100: var(--base-100);
+  --color-base-200: var(--base-200);
+  --color-base-300: var(--base-300);
+  --color-base-400: var(--base-400);
+  --color-base-500: var(--base-500);
+  --color-base-600: var(--base-600);
+  --color-base-700: var(--base-700);
+  --color-base-800: var(--base-800);
+  --color-base-900: var(--base-900);
+  --color-base-999: var(--base-999);
+  --color-base-1000: var(--base-1000);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --base-100: #111111;
+    --base-200: #1a1a1a;
+    --base-300: #1f1f1f;
+    --base-400: #252525;
+    --base-500: #2f2f2f;
+    --base-600: #6b6b6b;
+    --base-700: #b9b9b9;
+    --base-800: #e3e3e3;
+    --base-900: #f2f2f2;
+    --base-999: #f9f9f9;
+    --base-1000: #ffffff;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  margin: 0;
+  padding: 0;
 }
