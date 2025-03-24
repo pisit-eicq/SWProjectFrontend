@@ -42,7 +42,7 @@ export default function SignUpPage() {
                     {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
                     {success && <p className="text-green-500 text-sm mb-2">{success}</p>}
                 </div>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
                     <input
                         type="text"
                         placeholder="Name"
