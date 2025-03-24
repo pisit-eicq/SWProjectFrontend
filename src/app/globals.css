@@ -3,6 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --danger: #ff0000;
+  --danger-hover: #ff7f00;
+  --on-danger: #ffffff;
   --base-100: #ffffff;
   --base-200: #f9fafb;
   --base-300: #f4f5f7;
@@ -36,12 +39,18 @@
   --color-base-900: var(--base-900);
   --color-base-999: var(--base-999);
   --color-base-1000: var(--base-1000);
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-on-danger: var(--on-danger);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --danger: #ff0000;
+    --danger-hover: #ff7f00;
+    --on-danger: #ffffff;
     --base-100: #111111;
     --base-200: #1a1a1a;
     --base-300: #1f1f1f;
