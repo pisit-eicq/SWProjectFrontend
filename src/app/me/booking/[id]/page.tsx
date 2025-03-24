@@ -25,8 +25,9 @@ export default function SignInPage() {
     console.log('Booking ID:', id);
 
     const breadcrumbItems = [
-        { label: 'Booking', href: '/booking' },
-        { label: `${id}`, href: `/booking/${id || ''}` }
+        { label: 'Me', href: '/me' },
+        { label: `Booking`, href: `/me/booking` },
+        { label: `${id}`, href: `/me/booking/${id || ''}` }
     ];
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -65,9 +66,20 @@ export default function SignInPage() {
                             <Icon icon="akar-icons:calendar" className="shrink-0" />
                             <DatePicker selected={startDate} name='date' onChange={(date) => setStartDate(date)} className='flex w-full z-10' />
                         </div>
+                        <div className='grid grid-cols-3 gap-4'>
                         <Button type="submit" variant="primary" size="lg">
-                            Book
+                            <Icon icon="akar-icons:check" className="shrink-0" />
+                            Done
                         </Button>
+                        <Button type="submit" variant="outline" size="lg">
+                            <Icon icon="akar-icons:close" className="shrink-0" />
+                            Cancel
+                        </Button>
+                        <Button type="submit" variant="danger" size="lg">
+                            <Icon icon="akar-icons:trash" className="shrink-0" />
+                            Delete
+                        </Button>
+                        </div>
                     </form>
                 </div>
             </div>

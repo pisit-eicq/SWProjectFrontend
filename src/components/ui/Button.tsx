@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 type ButtonProps = {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline'|'ghost';
+  variant?: 'primary' | 'secondary' | 'outline'|'ghost'|'danger';
   size?: 'sm' | 'md' | 'lg';
   onClick?: () => void;
   disabled?: boolean;
@@ -20,12 +20,13 @@ const Button: React.FC<ButtonProps> = ({
   className,
   type = 'button',
 }) => {
-  const baseStyles = 'rounded font-medium focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const baseStyles = 'rounded font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center justify-center gap-2';
   const variantStyles = {
     primary: 'bg-base-900 text-base-100 hover:bg-base-800 focus:ring-base-700',
     secondary: 'bg-base-300 text-base-900 hover:bg-base-400 focus:ring-base-500',
     outline: 'border border-base-500 text-base-900 hover:bg-base-200 focus:ring-base-500',
     ghost: 'text-base-900 hover:bg-base-200 focus:ring-base-500',
+    danger: 'bg-danger text-on-danger hover:bg-danger-dark focus:ring-danger-dark',
   };
   const sizeStyles = {
     sm: 'px-3 py-1 text-sm',
