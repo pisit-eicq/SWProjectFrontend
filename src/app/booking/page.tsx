@@ -5,10 +5,12 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import Card from './components/Card';
+import getRestaurants from '@/libs/getRestaurants';
 
 
 // src/app/signin/page.tsx
 export default function SignInPage() {
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
