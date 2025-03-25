@@ -5,15 +5,13 @@ type UserCardProps = {
     type: "Banned" | "Active" | "Inactive";
     name: string;
     email: string;
-    phone: string;
     role: string;
     userId: string;
-    key?: number;
+    key?: string;
     onEdit: (userId: string) => void;
-    onDelete: (userId: string) => void;
 };
 
-const UserCard: React.FC<UserCardProps> = ({ type, name, email, phone, role, userId, onEdit, onDelete, key }) => {
+const UserCard: React.FC<UserCardProps> = ({ type, name, email, role, userId, onEdit }) => {
     const badgeStyles = {
         Banned: "bg-danger text-on-danger",
         Active: "bg-success text-on-success",
@@ -34,7 +32,6 @@ const UserCard: React.FC<UserCardProps> = ({ type, name, email, phone, role, use
                 </div>
             </div>
             <div className="flex gap-4">
-                <p className="text-sm opacity-3/4">{phone}</p>
                 <p className="text-sm opacity-3/4">{role}</p>
                 <div className="flex gap-2">
                     {

@@ -84,7 +84,7 @@ export default function SignInPage() {
             }
         }
         // refresh the users list
-        const data = await getUsers(session.user?.token);
+        const data = await getUsers(session?.user?.token);
         setUsers(data.data);
     }
 
@@ -125,6 +125,7 @@ export default function SignInPage() {
                                     userId={user._id}
                                     type={user.banned ? 'Banned' : 'Active'}
                                     onEdit={(userId) => handleClickBan(userId)}
+                                    role={user.role}
                                 />
                             ))
                         ) : (

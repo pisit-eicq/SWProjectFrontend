@@ -43,14 +43,12 @@ export default function SignInPage() {
         }
 
         try {
-            if(session){
-                const reservation = await addReservation(session.user.token, startDate.toISOString(), ValidId);
-                if (reservation.success) {
-                    alert('Reservation created successfully!');
-                    router.push('/me/booking');
-                } else {
-                    setError('Failed to create reservation. Please try again.');
-                }
+            const reservation = await addReservation(session?.user?.token, startDate.toISOString(), ValidId);
+            if (reservation.success) {
+                alert('Reservation created successfully!');
+                router.push('/me/booking');
+            } else {
+                setError('Failed to create reservation. Please try again.');
             }
         } catch (error) {
             setError('Failed to create reservation. Please try again.');

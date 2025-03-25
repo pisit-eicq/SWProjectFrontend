@@ -22,12 +22,12 @@ export default function MyBookingById() {
         router.push('/api/auth/signin');
     };
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
     const [error, setError] = useState('');
     const router = useRouter();
 
-    let title = 'Edit Booking';
-    let description = 'chage booking date';
+    const title = 'Edit Booking';
+    const description = 'chage booking date';
 
 
     const { id } = useParams();
@@ -47,7 +47,7 @@ export default function MyBookingById() {
 
     const handleUpdate=async()=>{
         try {
-            const updatePromise = await updateReservation(session.user.token, startDate.toISOString(), varlidId);
+            const updatePromise = await updateReservation(session?.user.token, startDate ? startDate.toISOString() : "", varlidId);
             if (updatePromise.success) {
                 alert('Update success');
                 router.push('/me/booking'); // Redirect after update
@@ -61,7 +61,7 @@ export default function MyBookingById() {
 
     const handleDelete=async()=>{
         try {
-            const deletePromise = await deleteReservation(session.user.token, varlidId);
+            const deletePromise = await deleteReservation(session?.user.token, varlidId);
             if (deletePromise.success) {
                 alert('Delete success');
                 router.push('/me/booking'); // Redirect after delete
