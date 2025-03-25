@@ -1,0 +1,47 @@
+.card-container{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+@media (max-width: 768px) {
+    .card-container{
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    transition: all ease .3s;
+    position: relative; /* Ensure card is positioned relatively */
+    /* ... other existing card styles from Tailwind are applied in the component className */
+  }
+  
+.card:hover{
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+.card:hover::before {
+    opacity: 0.5; /* Show shadow on hover */
+  }
+  .card::before {
+    transition: all ease .3s;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom right,
+      #ff0000, /* Red */
+      #ff7f00, /* Orange */
+      #ffff00, /* Yellow */
+      #00ff00, /* Green */
+      #0000ff, /* Blue */
+      #4b0082, /* Indigo */
+      #8f00ff  /* Violet */
+    );
+    z-index: -1; /* Place shadow behind the card */
+    border-radius: inherit; /* Match card's border-radius */
+    filter: blur(20px); /* Adjust blur amount as needed */
+    margin: -5px; /* Expand shadow slightly, adjust as needed */
+    opacity: 0; /* Adjust opacity of the shadow */
+  }
