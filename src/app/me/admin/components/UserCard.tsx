@@ -37,10 +37,6 @@ const UserCard: React.FC<UserCardProps> = ({ type, name, email, phone, role, use
                 <p className="text-sm opacity-3/4">{phone}</p>
                 <p className="text-sm opacity-3/4">{role}</p>
                 <div className="flex gap-2">
-                    <Button onClick={() => onEdit(userId)} variant="primary" size="md">
-                        <Icon icon="mdi:pencil" className="shrink-0" />
-                        Edit
-                    </Button>
                     {
                         type === "Banned" ? (
                             <Button onClick={() => onEdit(userId)} variant="secondary" size="md">
@@ -54,10 +50,6 @@ const UserCard: React.FC<UserCardProps> = ({ type, name, email, phone, role, use
                         </Button>
                         )
                     }
-                    <Button onClick={() => onDelete(userId)} variant="danger" size="md">
-                        <Icon icon="mdi:bin" className="shrink-0" />
-                        Delete
-                    </Button>
                 </div>
             </div>
         </div>

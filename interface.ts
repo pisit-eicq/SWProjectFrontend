@@ -34,3 +34,19 @@ export interface ReservationItem{
   user:string,
   restaurant:RestaurantItem
 }
+
+export interface UserItem {
+  _id: string;
+  username: string;
+  email: string;
+  role: string;
+  banned: boolean;
+  createdAt: string;
+  __v: number;
+}
+
+export interface UsersJson {
+  success: boolean;
+  count: number;
+  data: UserItem[];
+}

@@ -8,6 +8,7 @@ import { useParams } from 'next/navigation';
 import Breadcrumb from '@/components/ui/Breadcrum';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 
 // src/app/signin/page.tsx
@@ -24,8 +25,10 @@ export default function Mepage() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-    const username = 'Placeholder';
-
+    const { data: session } = useSession();
+    const username = session?.user?.data.username || 'Admin';
+    const role = session?.user?.data.role;
+    console.log(role);
 
 
     return (
@@ -44,7 +47,7 @@ export default function Mepage() {
                             Welcome back!, {username}
                         </h1>
                         <p className="text-lg text-foreground opacity-3/4">
-                            Manage your account here
+                            Manage your account here as {role}
                         </p>
                     </div>
                     <div className='flex flex-col gap-2'>
