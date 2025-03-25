@@ -39,15 +39,15 @@ export default function MePage() {
                             </Button>
                         </a>
                         <h1 className="text-4xl font-semibold font-dela text-foreground uppercase">
-                            Welcome back!, {session.user.data.username}
+                            Welcome back!, {session.user.username}
                         </h1>
                         <p className="text-lg text-foreground opacity-3/4">
-                            Manage your account here as {session.user.data.role}.
+                            Manage your account here as {session.user.role}.
                         </p>
                     </div>
                     <div className='flex flex-col gap-2'>
                         {
-                            (session.user.data.role==="admin")? <a href="/me/admin" className='w-full flex flex-col'><Button variant="secondary" className='h-full' size='lg' ><Icon icon="material-symbols:admin-panel-settings" /> Admin</Button></a>:null
+                            (session.user.role==="admin")? <a href="/me/admin" className='w-full flex flex-col'><Button variant="secondary" className='h-full' size='lg' ><Icon icon="material-symbols:admin-panel-settings" /> Admin</Button></a>:null
                         }
                         <Link href="/me/booking" className='w-full flex flex-col'>
                         <Button variant="primary" className='h-full' size='lg' ><Icon icon="mdi:book" /> My Bookings</Button>

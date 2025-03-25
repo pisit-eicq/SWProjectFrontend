@@ -50,8 +50,8 @@ export default function SignInPage() {
         user.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const username = session?.user?.data.username || 'Admin';
-    const role = session?.user?.data.role || 'Admin';
+    const username = session?.user?.username || 'Admin';
+    const role = session?.user?.role || 'Admin';
 
     if (role !== 'admin' || !session) {
         const router = useRouter();
@@ -84,8 +84,10 @@ export default function SignInPage() {
             }
         }
         // refresh the users list
-        const data = await getUsers(session.user?.token);
-        setUsers(data.data);
+        if(session){
+            const data = await getUsers(session.user?.token);
+            setUsers(data.data);
+        }
     }
 
     return (

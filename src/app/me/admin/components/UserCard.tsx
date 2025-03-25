@@ -5,12 +5,12 @@ type UserCardProps = {
     type: "Banned" | "Active" | "Inactive";
     name: string;
     email: string;
-    phone: string;
-    role: string;
+    phone?: string;
+    role?: string;
     userId: string;
-    key?: number;
+    key?: number|string;
     onEdit: (userId: string) => void;
-    onDelete: (userId: string) => void;
+    onDelete?: (userId: string) => void;
 };
 
 const UserCard: React.FC<UserCardProps> = ({ type, name, email, phone, role, userId, onEdit, onDelete, key }) => {

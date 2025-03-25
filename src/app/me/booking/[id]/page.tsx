@@ -17,14 +17,13 @@ import { ReservationItem,ReservationJson,ReservationsJson } from 'interface';
 // src/app/signin/page.tsx
 export default function MyBookingById() {
     const {data:session}=useSession();
+    const router=useRouter();
     if(!session||!session.user) {
-        const router=useRouter();
         router.push('/api/auth/signin');
     };
 
     const [startDate, setStartDate] = useState(new Date());
     const [error, setError] = useState('');
-    const router = useRouter();
 
     let title = 'Edit Booking';
     let description = 'chage booking date';
@@ -47,12 +46,14 @@ export default function MyBookingById() {
 
     const handleUpdate=async()=>{
         try {
-            const updatePromise = await updateReservation(session.user.token, startDate.toISOString(), varlidId);
-            if (updatePromise.success) {
-                alert('Update success');
-                router.push('/me/booking'); // Redirect after update
-            } else {
-                setError('Failed to update reservation.');
+            if(session){
+                const updatePromise = await updateReservation(session.user.token, startDate.toISOString(), varlidId);
+                if (updatePromise.success) {
+                    alert('Update success');
+                    router.push('/me/booking'); // Redirect after update
+                } else {
+                    setError('Failed to update reservation.');
+                }
             }
         } catch (error) {
             setError('Error updating reservation.');
@@ -61,12 +62,14 @@ export default function MyBookingById() {
 
     const handleDelete=async()=>{
         try {
-            const deletePromise = await deleteReservation(session.user.token, varlidId);
-            if (deletePromise.success) {
-                alert('Delete success');
-                router.push('/me/booking'); // Redirect after delete
-            } else {
-                setError('Failed to delete reservation.');
+            if(session){
+                const deletePromise = await deleteReservation(session.user.token, varlidId);
+                if (deletePromise.success) {
+                    alert('Delete success');
+                    router.push('/me/booking'); // Redirect after delete
+                } else {
+                    setError('Failed to delete reservation.');
+                }
             }
         } catch (error) {
             setError('Error deleting reservation.');
@@ -94,7 +97,13 @@ export default function MyBookingById() {
                     <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
                         <div className='p-4 rounded bg-background/50 backdrop-blur-md flex justify-start items-center gap-4 border border-base-300 text-foreground w-full'>
                             <Icon icon="akar-icons:calendar" className="shrink-0" />
-                            <DatePicker selected={startDate} name='date' onChange={(date) => setStartDate(date)} className='flex w-full z-10' />
+                            <DatePicker
+                                selected={startDate}
+                                name="date"
+                                onChange={(date: Date | null) => {
+                                    if (date) setStartDate(date);
+                                }}
+                                className="flex w-full z-10"/>
                         </div>
                         <div className='grid grid-cols-3 gap-4'>
                         <Button type="submit" variant="primary" size="lg" onClick={handleUpdate}>
