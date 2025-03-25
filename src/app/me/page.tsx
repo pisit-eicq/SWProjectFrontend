@@ -1,14 +1,8 @@
 'use client';
-import Image from 'next/image';
 import { useState,useEffect} from 'react';
-import { signIn } from 'next-auth/react';
-import { redirect, useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
-import { useParams } from 'next/navigation';
-import Breadcrumb from '@/components/ui/Breadcrum';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Link from 'next/link';
-import getUserProfile from '@/libs/getUserProfile';
 import { useSession } from 'next-auth/react';
 
 
