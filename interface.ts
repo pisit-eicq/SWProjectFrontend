@@ -35,10 +35,27 @@ export interface ReservationItem{
   restaurant:RestaurantItem
 }
 
+
 export interface profile{
   _id:string,
   username:string,
   email:string,
   role:string,
   banned:boolean
+}
+
+export interface UserItem {
+  _id: string;
+  username: string;
+  email: string;
+  role: string;
+  banned: boolean;
+  createdAt: string;
+  __v: number;
+}
+
+export interface UsersJson {
+  success: boolean;
+  count: number;
+  data: UserItem[];
 }

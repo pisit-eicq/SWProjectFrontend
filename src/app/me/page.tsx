@@ -38,7 +38,6 @@ export default function MePage() {
                 }
             }
         };
-
         fetchProfile(); // Fetch profile data when component mounts
 
         return () => {
@@ -66,7 +65,7 @@ export default function MePage() {
                             Welcome back!, {profile.username}
                         </h1>
                         <p className="text-lg text-foreground opacity-3/4">
-                            Manage your account here
+                            Manage your account here as {role}
                         </p>
                     </div>
                     <div className='flex flex-col gap-2'>
