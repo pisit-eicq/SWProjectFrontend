@@ -26,7 +26,7 @@ export default function SignUpPage() {
             }
 
             setSuccess('Account created successfully! Redirecting...');
-            setTimeout(() => router.push('/signin'), 2000); // รีไดเรกต์ไปหน้า Sign In หลัง 2 วิ
+            setTimeout(() => router.push('/api/auth/signin'), 2000); // รีไดเรกต์ไปหน้า Sign In หลัง 2 วิ
         } catch (err: any) {
             setError('Failed to register. Please try again.');
         }
@@ -71,7 +71,7 @@ export default function SignUpPage() {
                     <div className="border-t border-base-300"></div>
                     <p>
                         Already have an account?{' '}
-                        <a href="/signin" className="text-primary">Sign In</a>
+                        <a href="/api/auth/signin" className="text-primary">Sign In</a>
                     </p>
                 </form>
             </div>
