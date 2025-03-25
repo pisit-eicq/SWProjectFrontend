@@ -1,7 +1,7 @@
 import { UsersJson,UserItem } from "interface";
 
 export function getUsers(token: string): Promise<UsersJson> {
-    return fetch("http://localhost:5000/api/v1/auth/users/", {
+    return fetch("https://sw-project-backend-one.vercel.app/api/v1/auth/users/", {
         method: "GET",
         headers: {
         "Content-Type": "application/json",
