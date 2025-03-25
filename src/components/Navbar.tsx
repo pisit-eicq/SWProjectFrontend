@@ -2,8 +2,10 @@
 import { useEffect, useState } from 'react';
 import { Icon } from "@iconify/react";
 import Button from './ui/Button';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 
-export default function Navbar() {
+export default async function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [open, setOpen] = useState(false);
     const [user, setUser] = useState(null);
@@ -31,6 +33,8 @@ export default function Navbar() {
         setOpen(false);
     };
 
+    const session = await getServerSession(authOptions)
+
     return (
         <nav className={`fixed top-0 left-0 right-0 z-99 flex items-center justify-between p-4 text-foreground transition-all  ${scrolled ? "bg-background/50 h-16 backdrop-blur-3xl shadow-md px-8" : "bg-transparent h-24 px-16"}`} >
             <a href="/" className="text-xl font-bold">
@@ -39,18 +43,17 @@ export default function Navbar() {
             <ul className="space-x-4 items-center hidden xl:flex">
                 <li><a href="/booking">Booking</a></li>
                 <li><a href="/me/booking">My booking</a></li>
-                {user ? (
+                {session ? (
                     <li>
                         <a href="/me">
                             <Button variant="secondary" className='flex gap-2 items-center'>
-                                <Icon icon="mdi:account
-                            " className='shrink-0' />
+                                <Icon icon="mdi:account" className='shrink-0' />
                             </Button>
                         </a>
                     </li>
                 ) : (
                     <li>
-                        <a href="/signin"><Button variant="primary" className='flex gap-2 items-center'><Icon icon="mdi:login" className='shrink-0' />Login</Button></a>
+                        <a href="/api/auth/signin"><Button variant="primary" className='flex gap-2 items-center'><Icon icon="mdi:login" className='shrink-0' />Login</Button></a>
                     </li>
                 )}
             </ul>
@@ -63,9 +66,9 @@ export default function Navbar() {
                         <a href="/booking" className='w-full text-center' onClick={closeMenu}>Booking</a>
                         <a href="/me/booking" className='w-full text-center' onClick={closeMenu}>My booking</a>
                         <a href={
-                            user ? "/me" : "/signin"
+                            session ? "/me" : "/api/auth/signin"
                         } className='w-full' onClick={closeMenu}>
-                            {user ? (
+                            {session ? (
                                 <Button variant="secondary" className='flex gap-2 items-center text-center w-full'>
                                     <Icon icon="mdi:account
                             " className='shrink-0' />

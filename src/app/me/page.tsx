@@ -2,11 +2,12 @@
 import Image from 'next/image';
 import { useState,useEffect} from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import { useParams } from 'next/navigation';
 import Breadcrumb from '@/components/ui/Breadcrum';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import Link from 'next/link';
 
 
 // src/app/signin/page.tsx
@@ -24,6 +25,9 @@ export default function SignInPage() {
         };
     }, []);
     const username = 'Placeholder';
+
+
+
     return (
         <main className="relative">
             <img src="/Gradient3.svg" className='absolute top-0 left-0 z-0 w-fit h-auto opacity-50 blur-md invert dark:invert-0' alt="gd3" />
@@ -46,6 +50,9 @@ export default function SignInPage() {
                     <div className='flex flex-col gap-2'>
                         <a href="/me/admin" className='w-full flex flex-col'><Button variant="secondary" className='h-full' size='lg' ><Icon icon="material-symbols:admin-panel-settings" /> Admin</Button></a>
                         <Button variant="primary" className='h-full' size='lg' ><Icon icon="mdi:book" /> My Bookings</Button>
+                        <Link href="/api/auth/signout" className='w-full flex flex-col'>
+                        <Button variant="danger" className='h-full' size='lg' ><Icon icon="mdi:logout" /> Logout</Button>
+                        </Link>
                     </div>
                 </div>
             </div>

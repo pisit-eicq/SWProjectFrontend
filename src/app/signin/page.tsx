@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
@@ -67,4 +67,4 @@ export default function SignInPage() {
             </div>
         </main>
     );
-}
+}*/

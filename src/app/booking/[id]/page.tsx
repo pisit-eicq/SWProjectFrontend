@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { FormEvent, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import { useParams } from 'next/navigation';
@@ -12,30 +12,45 @@ import "react-datepicker/dist/react-datepicker.css";
 import addReservation from '@/libs/addReservation';
 import getRestaurant from '@/libs/getRestaurant';
 import { RestaurantItem } from 'interface';
+import { Dayjs } from 'dayjs';
 
 // src/app/signin/page.tsx
-export default async function SignInPage() {
+const SignInPage=()=> {
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
     const [error, setError] = useState('');
     const router = useRouter();
 
     const { id } = useParams();
-    console.log('Booking ID:', id);
+    const ValidId=id as string;
+    console.log('Booking ID:', ValidId);
 
     const breadcrumbItems = [
         { label: 'Booking', href: '/booking' },
         { label: `${id}`, href: `/booking/${id || ''}` }
     ];
 
-    const restaurantDetail=await getRestaurant(String(id));
-    const restaurant = restaurantDetail.data as unknown as RestaurantItem;
-    let title = restaurant.name;
+    let title = 'Booking';
     let description = 'New Booking';
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const {data:session}=useSession();
+    if(!session||!session.user){
+        router.push('/api/auth/signin');
+    }
+
+    const handleSubmit = async (event:FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setError(''); // Clear previous errors
+        console.log("Submit");
+        /*if (!startDate) {
+            setError('Please select a valid date.');
+            return;
+        }
+        try {
+            const reservation= await addReservation(session.user.token, startDate.toISOString(), ValidId);
+            if(reservation.success) alert('success!!!');
+          } catch (error) {
+            setError('Failed to create reservation. Please try again.');
+        }*/
     };
 
 
@@ -58,19 +73,15 @@ export default async function SignInPage() {
                         </p>
                     </div>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
-                        <div className='p-4 rounded bg-background/50 backdrop-blur-md flex justify-start items-center gap-4 z-0 border border-base-300 text-foreground w-full'>
-                            <Icon icon="akar-icons:clock" className="shrink-0" />
-                            <input
-                                type="time"
-                                name="time"
-                                className="flex w-full bg-transparent border-none outline-none text-foreground"
+                        <div className='p-4 rounded bg-background/50 backdrop-blur-md flex justify-start items-center gap-4 border border-base-300 text-foreground w-full flex w-full z-10'>
+                            <Icon icon="akar-icons:calendar" className="shrink-0" />
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date: Date|null) => setStartDate(date)}
+                                dateFormat="yyyy/MM/dd"
                             />
                         </div>
-                        <div className='p-4 rounded bg-background/50 backdrop-blur-md flex justify-start items-center gap-4 border border-base-300 text-foreground w-full'>
-                            <Icon icon="akar-icons:calendar" className="shrink-0" />
-                            <DatePicker selected={startDate} name='date' onChange={(date) => setStartDate(date)} className='flex w-full z-10' />
-                        </div>
-                        <Button type="submit" variant="primary" size="lg">
+                        <Button type="submit" variant="primary" size="lg" onClick={(e)=>{handleSubmit(e)}}>
                             Book
                         </Button>
                     </form>
@@ -79,3 +90,5 @@ export default async function SignInPage() {
         </main>
     );
 }
+
+export default SignInPage;
