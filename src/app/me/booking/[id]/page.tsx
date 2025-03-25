@@ -17,7 +17,10 @@ import { ReservationItem,ReservationJson,ReservationsJson } from 'interface';
 // src/app/signin/page.tsx
 export default function MyBookingById() {
     const {data:session}=useSession();
-    if(!session||!session.user) return <div>Please Login</div>;
+    if(!session||!session.user) {
+        const router=useRouter();
+        router.push('/api/auth/signin');
+    };
 
     const [startDate, setStartDate] = useState(new Date());
     const [error, setError] = useState('');

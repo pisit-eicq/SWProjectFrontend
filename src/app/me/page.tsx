@@ -16,8 +16,6 @@ import { useSession } from 'next-auth/react';
 export default function MePage() {
     const { data:session } = useSession();
     if(!session||!session.user) return <div>Please Login</div>
-    const [profile, setProfile] = useState<any>(null);
-
     const [scroll, setScroll] = useState(0);
     const [error, setError] = useState<string>('');
     const handleScroll = () => {
@@ -27,27 +25,12 @@ export default function MePage() {
         if (typeof window !== 'undefined') {
             window.addEventListener('scroll', handleScroll);
         }
-
-        const fetchProfile = async () => {
-            if (session?.user?.token) {
-                try {
-                    const userProfile = await getUserProfile(session.user.token);
-                    setProfile(userProfile.data); // Set the fetched profile
-                } catch (err) {
-                    setError('Failed to fetch user profile.');
-                }
-            }
-        };
-        fetchProfile(); // Fetch profile data when component mounts
-
         return () => {
             if (typeof window !== 'undefined') {
                 window.removeEventListener('scroll', handleScroll);
             }
         };
     }, [session]); // Dependency array ensures fetching is done once session is available
-
-    if (!profile) return <div>Loading...</div>; // Show loading state while fetching profile
 
     return (
         <main className="relative">
@@ -62,15 +45,15 @@ export default function MePage() {
                             </Button>
                         </a>
                         <h1 className="text-4xl font-semibold font-dela text-foreground uppercase">
-                            Welcome back!, {profile.username}
+                            Welcome back!, {session.user.data.username}
                         </h1>
                         <p className="text-lg text-foreground opacity-3/4">
-                            Manage your account here as {role}
+                            Manage your account here as {session.user.data.role}.
                         </p>
                     </div>
                     <div className='flex flex-col gap-2'>
                         {
-                            (profile.role==="admin")? <a href="/me/admin" className='w-full flex flex-col'><Button variant="secondary" className='h-full' size='lg' ><Icon icon="material-symbols:admin-panel-settings" /> Admin</Button></a>:null
+                            (session.user.data.role==="admin")? <a href="/me/admin" className='w-full flex flex-col'><Button variant="secondary" className='h-full' size='lg' ><Icon icon="material-symbols:admin-panel-settings" /> Admin</Button></a>:null
                         }
                         <Link href="/me/booking" className='w-full flex flex-col'>
                         <Button variant="primary" className='h-full' size='lg' ><Icon icon="mdi:book" /> My Bookings</Button>

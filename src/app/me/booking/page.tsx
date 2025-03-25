@@ -15,7 +15,10 @@ import { ReservationJson,ReservationItem } from 'interface';
 // src/app/signin/page.tsx
 export default function MyBooking() {
     const {data:session}=useSession();
-    if(!session||!session.user) return <div>Please Login</div>;
+    if(!session||!session.user) {
+        const router=useRouter();
+        router.push('/api/auth/signin');
+    };
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -72,6 +75,12 @@ export default function MyBooking() {
         };
     }, []);
 
+    const [searchQuery, setSearchQuery] = useState(''); // State for search input
+
+    const filteredReservations = reservationData.filter((reservation) =>
+        reservation.restaurant.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <main className="relative">
             <img src="/Gradient3.svg" className='absolute top-0 left-0 z-0 w-fit h-auto opacity-50 blur-md invert dark:invert-0' alt="gd3" />
@@ -86,7 +95,14 @@ export default function MyBooking() {
                         <p className="text-lg text-foreground opacity-3/4">
                             Explore your bookings and manage them here
                         </p>
-                        <Input placeholder='Search for a restaurant' icon="mdi:search" size='sm' className='mt-4' />
+                        <Input
+                            placeholder='Search for a restaurant'
+                            icon="mdi:search"
+                            size='sm'
+                            className='mt-4'
+                            value={searchQuery} // Bind input value to state
+                            onChange={(e) => setSearchQuery(e.target.value)} // Update state on input change
+                        />
                     </div>
                     <a href='/booking' className='h-full flex items-center'>
                         <Button variant="secondary" className='h-full' ><Icon icon="mdi:plus" className='shrink-0' />Booking</Button>
@@ -94,9 +110,17 @@ export default function MyBooking() {
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                     {
-                        reservationData.length>0? ( reservationData.map((reservation:ReservationItem)=>(
-                            <Card title={reservation.restaurant.name} date={reservation.apptDate} href={`/me/booking/${reservation._id}`} id={reservation._id} key={reservation._id}/>
-                        ))):(
+                        filteredReservations.length > 0 ? (
+                            filteredReservations.map((reservation: ReservationItem) => (
+                                <Card
+                                    title={reservation.restaurant.name}
+                                    date={reservation.apptDate}
+                                    href={`/me/booking/${reservation._id}`}
+                                    id={reservation._id}
+                                    key={reservation._id}
+                                />
+                            ))
+                        ) : (
                             <p>No reservations found.</p>
                         )
                     }
