@@ -8,25 +8,47 @@ import { useParams } from 'next/navigation';
 import Breadcrumb from '@/components/ui/Breadcrum';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Link from 'next/link';
+import getUserProfile from '@/libs/getUserProfile';
+import { useSession } from 'next-auth/react';
 
 
 // src/app/signin/page.tsx
-export default function Mepage() {
+export default function MePage() {
+    const { data:session } = useSession();
+    if(!session||!session.user) return <div>Please Login</div>
+    const [profile, setProfile] = useState<any>(null);
+
     const [scroll, setScroll] = useState(0);
+    const [error, setError] = useState<string>('');
     const handleScroll = () => {
         setScroll(window.scrollY);
     };
-    if (typeof window !== 'undefined') {
-        window.addEventListener('scroll', handleScroll);
-    }
     useEffect(() => {
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
+        if (typeof window !== 'undefined') {
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        const fetchProfile = async () => {
+            if (session?.user?.token) {
+                try {
+                    const userProfile = await getUserProfile(session.user.token);
+                    setProfile(userProfile.data); // Set the fetched profile
+                } catch (err) {
+                    setError('Failed to fetch user profile.');
+                }
+            }
         };
-    }, []);
-    const username = 'Placeholder';
 
+        fetchProfile(); // Fetch profile data when component mounts
 
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [session]); // Dependency array ensures fetching is done once session is available
+
+    if (!profile) return <div>Loading...</div>; // Show loading state while fetching profile
 
     return (
         <main className="relative">
@@ -41,14 +63,16 @@ export default function Mepage() {
                             </Button>
                         </a>
                         <h1 className="text-4xl font-semibold font-dela text-foreground uppercase">
-                            Welcome back!, {username}
+                            Welcome back!, {profile.username}
                         </h1>
                         <p className="text-lg text-foreground opacity-3/4">
                             Manage your account here
                         </p>
                     </div>
                     <div className='flex flex-col gap-2'>
-                        <a href="/me/admin" className='w-full flex flex-col'><Button variant="secondary" className='h-full' size='lg' ><Icon icon="material-symbols:admin-panel-settings" /> Admin</Button></a>
+                        {
+                            (profile.role==="admin")? <a href="/me/admin" className='w-full flex flex-col'><Button variant="secondary" className='h-full' size='lg' ><Icon icon="material-symbols:admin-panel-settings" /> Admin</Button></a>:null
+                        }
                         <Link href="/me/booking" className='w-full flex flex-col'>
                         <Button variant="primary" className='h-full' size='lg' ><Icon icon="mdi:book" /> My Bookings</Button>
                         </Link>

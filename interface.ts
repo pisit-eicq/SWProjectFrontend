@@ -34,3 +34,11 @@ export interface ReservationItem{
   user:string,
   restaurant:RestaurantItem
 }
+
+export interface profile{
+  _id:string,
+  username:string,
+  email:string,
+  role:string,
+  banned:boolean
+}

@@ -61,7 +61,8 @@ export default function Navbar() {
                         </a>
                     </li>
                 ) : (
-                    <li>
+                    <li className='flex flex-row '>
+                        <a href="/register"><Button variant="primary" className='flex gap-2 items-center mx-2'>Sign-Up</Button></a>
                         <a href="/api/auth/signin"><Button variant="primary" className='flex gap-2 items-center'><Icon icon="mdi:login" className='shrink-0' />Login</Button></a>
                     </li>
                 )}
@@ -83,9 +84,14 @@ export default function Navbar() {
                             " className='shrink-0' />
                                 </Button>
                             ) : (
-                                <Button variant="primary" className='flex gap-2 items-center text-center w-full'>
-                                    <Icon icon="mdi:login" className='shrink-0' />Login
-                                </Button>
+                                <li>
+                                    <Button variant="primary" className='flex gap-2 items-center text-center w-full'>
+                                        Sign-Up
+                                    </Button>
+                                    <Button variant="primary" className='flex gap-2 items-center text-center w-full'>
+                                        <Icon icon="mdi:login" className='shrink-0' />Login
+                                    </Button>
+                                </li>
                             )}
                         </a>
                     </div>

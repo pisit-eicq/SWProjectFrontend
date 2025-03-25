@@ -1,3 +1,4 @@
+
 export default async function getUserProfile(token: string) {
     return await fetch(
       "https://sw-project-backend-one.vercel.app/api/v1/auth/me",

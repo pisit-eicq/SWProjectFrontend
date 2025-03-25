@@ -12,7 +12,7 @@ export default async function userLogIn(userEmail: string, userPassword: string)
     })
   
     if(!response.ok){
-      throw new Error("Failed to fetch cars")
+      throw new Error("Failed to login")
     }
     return await response.json()
   }
