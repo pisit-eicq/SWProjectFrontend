@@ -13,7 +13,7 @@ import { ReservationJson,ReservationItem } from 'interface';
 
 
 // src/app/signin/page.tsx
-export default async function SignInPage() {
+export default function MyBooking() {
     const {data:session}=useSession();
     if(!session||!session.user) return <div>Please Login</div>;
 
@@ -21,7 +21,21 @@ export default async function SignInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [reservationData, setReservationData] = useState<ReservationItem[]>([]);
     const router = useRouter();
+
+    // Fetch reservations after session is available
+    useEffect(() => {
+        const fetchReservations = async () => {
+            if (session?.user?.token) {
+                const reservations = await getReservations(session.user.token);
+                setReservationData(reservations.data); // Set the reservation data to state
+            }
+        };
+        if (session) {
+            fetchReservations(); // Call the function when session is available
+        }
+    }, [session]);
 
     const breadcrumbItems = [
         { label: 'Me', href: '/me' },
@@ -58,8 +72,6 @@ export default async function SignInPage() {
         };
     }, []);
 
-    const reservation = await getReservations(session.user.token);
-
     return (
         <main className="relative">
             <img src="/Gradient3.svg" className='absolute top-0 left-0 z-0 w-fit h-auto opacity-50 blur-md invert dark:invert-0' alt="gd3" />
@@ -82,9 +94,11 @@ export default async function SignInPage() {
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                     {
-                        reservation.data.map((reservation:ReservationItem)=>(
-                            <Card title={reservation.restaurant.name} date={reservation.apptDate} href={`/me/booking/${reservation._id}`} id={reservation._id} />
-                        ))
+                        reservationData.length>0? ( reservationData.map((reservation:ReservationItem)=>(
+                            <Card title={reservation.restaurant.name} date={reservation.apptDate} href={`/me/booking/${reservation._id}`} id={reservation._id} key={reservation._id}/>
+                        ))):(
+                            <p>No reservations found.</p>
+                        )
                     }
                 </div>
             </div>

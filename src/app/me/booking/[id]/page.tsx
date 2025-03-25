@@ -15,7 +15,7 @@ import { ReservationItem,ReservationJson,ReservationsJson } from 'interface';
 
 
 // src/app/signin/page.tsx
-export default function SignInPage() {
+export default function MyBookingById() {
     const {data:session}=useSession();
     if(!session||!session.user) return <div>Please Login</div>;
 
@@ -43,15 +43,13 @@ export default function SignInPage() {
     };
 
     const handleUpdate=async()=>{
-        console.log('update');
-        //const updaatePromise=await updateReservation(session.user.token,startDate.toISOString(),varlidId);
-        //if(deletePromise.success) alert('update success');
+        const updatePromise=await updateReservation(session.user.token,startDate.toISOString(),varlidId);
+        if(updatePromise.success) alert('update success');
     }
 
     const handleDelete=async()=>{
-        console.log('delete');
-        //const deletePromise= await deleteReservation(session.user.token,varlidId);
-        //if(deletePromise.success) alert('delete success');
+        const deletePromise= await deleteReservation(session.user.token,varlidId);
+        if(deletePromise.success) alert('delete success');
     }
 
     return (

@@ -2,13 +2,24 @@
 import { useEffect, useState } from 'react';
 import { Icon } from "@iconify/react";
 import Button from './ui/Button';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+import { getSession } from 'next-auth/react';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'; 
+import { Session } from 'next-auth';
 
-export default async function Navbar() {
+export default function Navbar() {
+
     const [scrolled, setScrolled] = useState(false);
     const [open, setOpen] = useState(false);
     const [user, setUser] = useState(null);
+    const [session, setSession] = useState<Session|null>(null);
+
+    useEffect(() => {
+        const fetchSession = async () => {
+            const sessionData = await getSession();
+            setSession(sessionData);
+        };
+        fetchSession();
+    }, []);
 
     useEffect(() => {
         function onScroll() {
@@ -32,8 +43,6 @@ export default async function Navbar() {
     const closeMenu = () => {
         setOpen(false);
     };
-
-    const session = await getServerSession(authOptions)
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-99 flex items-center justify-between p-4 text-foreground transition-all  ${scrolled ? "bg-background/50 h-16 backdrop-blur-3xl shadow-md px-8" : "bg-transparent h-24 px-16"}`} >
