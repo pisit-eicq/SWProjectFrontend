@@ -43,13 +43,31 @@ export default function MyBookingById() {
     };
 
     const handleUpdate=async()=>{
-        const updatePromise=await updateReservation(session.user.token,startDate.toISOString(),varlidId);
-        if(updatePromise.success) alert('update success');
+        try {
+            const updatePromise = await updateReservation(session.user.token, startDate.toISOString(), varlidId);
+            if (updatePromise.success) {
+                alert('Update success');
+                router.push('/me/booking'); // Redirect after update
+            } else {
+                setError('Failed to update reservation.');
+            }
+        } catch (error) {
+            setError('Error updating reservation.');
+        }
     }
 
     const handleDelete=async()=>{
-        const deletePromise= await deleteReservation(session.user.token,varlidId);
-        if(deletePromise.success) alert('delete success');
+        try {
+            const deletePromise = await deleteReservation(session.user.token, varlidId);
+            if (deletePromise.success) {
+                alert('Delete success');
+                router.push('/me/booking'); // Redirect after delete
+            } else {
+                setError('Failed to delete reservation.');
+            }
+        } catch (error) {
+            setError('Error deleting reservation.');
+        }
     }
 
     return (
@@ -76,15 +94,15 @@ export default function MyBookingById() {
                             <DatePicker selected={startDate} name='date' onChange={(date) => setStartDate(date)} className='flex w-full z-10' />
                         </div>
                         <div className='grid grid-cols-3 gap-4'>
-                        <Button type="submit" variant="primary" size="lg" onClick={()=>{handleUpdate}}>
+                        <Button type="submit" variant="primary" size="lg" onClick={handleUpdate}>
                             <Icon icon="akar-icons:check" className="shrink-0"/>
                             Done
                         </Button>
                         <Button type="submit" variant="outline" size="lg">
-                            <Icon icon="akar-icons:close" className="shrink-0" />
+                            <Icon icon="akar-icons:close" className="shrink-0" onClick={()=>router.push('/me/booking')}/>
                             Cancel
                         </Button>
-                        <Button type="submit" variant="danger" size="lg" onClick={()=>{handleDelete}}>
+                        <Button type="submit" variant="danger" size="lg" onClick={handleDelete}>
                             <Icon icon="akar-icons:trash" className="shrink-0" />
                             Delete
                         </Button>
