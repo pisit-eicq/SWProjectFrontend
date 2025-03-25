@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import { useParams } from 'next/navigation';
@@ -9,19 +9,26 @@ import Breadcrumb from '@/components/ui/Breadcrum';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import deleteReservation from '@/libs/deleteReservation';
+import updateReservation from '@/libs/updateReservation';
+import { ReservationItem,ReservationJson,ReservationsJson } from 'interface';
 
 
 // src/app/signin/page.tsx
 export default function SignInPage() {
+    const {data:session}=useSession();
+    if(!session||!session.user) return <div>Please Login</div>;
+
     const [startDate, setStartDate] = useState(new Date());
     const [error, setError] = useState('');
     const router = useRouter();
 
-    let title = 'Placeholder';
-    let description = 'lore ipsum';
+    let title = 'Edit Booking';
+    let description = 'chage booking date';
 
 
     const { id } = useParams();
+    const varlidId=id as string;
     console.log('Booking ID:', id);
 
     const breadcrumbItems = [
@@ -34,6 +41,18 @@ export default function SignInPage() {
         event.preventDefault();
         setError(''); // Clear previous errors
     };
+
+    const handleUpdate=async()=>{
+        console.log('update');
+        //const updaatePromise=await updateReservation(session.user.token,startDate.toISOString(),varlidId);
+        //if(deletePromise.success) alert('update success');
+    }
+
+    const handleDelete=async()=>{
+        console.log('delete');
+        //const deletePromise= await deleteReservation(session.user.token,varlidId);
+        //if(deletePromise.success) alert('delete success');
+    }
 
     return (
         <main className="relative">
@@ -54,28 +73,20 @@ export default function SignInPage() {
                         </p>
                     </div>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
-                        <div className='p-4 rounded bg-background/50 backdrop-blur-md flex justify-start items-center gap-4 z-0 border border-base-300 text-foreground w-full'>
-                            <Icon icon="akar-icons:clock" className="shrink-0" />
-                            <input
-                                type="time"
-                                name="time"
-                                className="flex w-full bg-transparent border-none outline-none text-foreground"
-                            />
-                        </div>
                         <div className='p-4 rounded bg-background/50 backdrop-blur-md flex justify-start items-center gap-4 border border-base-300 text-foreground w-full'>
                             <Icon icon="akar-icons:calendar" className="shrink-0" />
                             <DatePicker selected={startDate} name='date' onChange={(date) => setStartDate(date)} className='flex w-full z-10' />
                         </div>
                         <div className='grid grid-cols-3 gap-4'>
-                        <Button type="submit" variant="primary" size="lg">
-                            <Icon icon="akar-icons:check" className="shrink-0" />
+                        <Button type="submit" variant="primary" size="lg" onClick={()=>{handleUpdate}}>
+                            <Icon icon="akar-icons:check" className="shrink-0"/>
                             Done
                         </Button>
                         <Button type="submit" variant="outline" size="lg">
                             <Icon icon="akar-icons:close" className="shrink-0" />
                             Cancel
                         </Button>
-                        <Button type="submit" variant="danger" size="lg">
+                        <Button type="submit" variant="danger" size="lg" onClick={()=>{handleDelete}}>
                             <Icon icon="akar-icons:trash" className="shrink-0" />
                             Delete
                         </Button>

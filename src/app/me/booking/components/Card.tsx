@@ -63,7 +63,7 @@ const Card: React.FC<CardProps> = ({
                     {time}
                 </p>
                 <span>
-                    {price} THB
+                    {price}
                 </span>
             </div>
         </a>

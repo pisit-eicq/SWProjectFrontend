@@ -49,7 +49,9 @@ export default function SignInPage() {
                     </div>
                     <div className='flex flex-col gap-2'>
                         <a href="/me/admin" className='w-full flex flex-col'><Button variant="secondary" className='h-full' size='lg' ><Icon icon="material-symbols:admin-panel-settings" /> Admin</Button></a>
+                        <Link href="/me/booking" className='w-full flex flex-col'>
                         <Button variant="primary" className='h-full' size='lg' ><Icon icon="mdi:book" /> My Bookings</Button>
+                        </Link>
                         <Link href="/api/auth/signout" className='w-full flex flex-col'>
                         <Button variant="danger" className='h-full' size='lg' ><Icon icon="mdi:logout" /> Logout</Button>
                         </Link>

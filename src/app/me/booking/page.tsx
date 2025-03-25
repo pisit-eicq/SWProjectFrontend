@@ -1,17 +1,22 @@
 'use client';
 import Image from 'next/image';
 import { useState,useEffect } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import Breadcrumb from '@/components/ui/Breadcrum';
 import Card from './components/Card';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Input from '@/components/ui/Input';
+import getReservations from '@/libs/getReservations';
+import { ReservationJson,ReservationItem } from 'interface';
 
 
 // src/app/signin/page.tsx
-export default function SignInPage() {
+export default async function SignInPage() {
+    const {data:session}=useSession();
+    if(!session||!session.user) return <div>Please Login</div>;
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -53,6 +58,8 @@ export default function SignInPage() {
         };
     }, []);
 
+    const reservation = await getReservations(session.user.token);
+
     return (
         <main className="relative">
             <img src="/Gradient3.svg" className='absolute top-0 left-0 z-0 w-fit h-auto opacity-50 blur-md invert dark:invert-0' alt="gd3" />
@@ -74,16 +81,11 @@ export default function SignInPage() {
                     </a>
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-                    <Card title='Alpine Cover' date='22/5/27' time="17:45" price={200} href='/me/booking/c10d8b0c908v0n9f7m9d7' id="c10d8b0c908v0n9f7m9d7" />
-
+                    {
+                        reservation.data.map((reservation:ReservationItem)=>(
+                            <Card title={reservation.restaurant.name} date={reservation.apptDate} href={`/me/booking/${reservation._id}`} id={reservation._id} />
+                        ))
+                    }
                 </div>
             </div>
         </main>
